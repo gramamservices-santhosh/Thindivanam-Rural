@@ -12,7 +12,10 @@
       "Bash(git init:*)",
       "Bash(git add:*)",
       "Bash(if exist \"customer-app\\\\.git\" rd /s /q \"customer-app\\\\.git\")",
-      "Bash(if exist \"shop-owner-app\\\\.git\" rd /s /q \"shop-owner-app\\\\.git\")"
+      "Bash(if exist \"shop-owner-app\\\\.git\" rd /s /q \"shop-owner-app\\\\.git\")",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nNam Tindivanam - Multi-vendor grocery delivery platform\n\n- Customer App: Browse products, search, cart, checkout, order tracking\n- Shop Owner App: Order management, products, analytics, settings\n- Admin features: Shop approval, platform analytics\n- Firebase integration: Auth, Firestore, Storage\n- PWA support with manifest and Capacitor setup\n- Fixed TypeScript build errors for Vercel deployment\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git remote add:*)",
+      "Bash(git push:*)"
     ],
     "additionalDirectories": [
       "c:\\Users\\SanthoshKumarShakkar\\Namthindivanam\\shop-owner-app\\app"
