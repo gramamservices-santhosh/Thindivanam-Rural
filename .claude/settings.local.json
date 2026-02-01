@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest customer-app --typescript --tailwind --eslint --app --src-dir=false --import-alias=\"@/*\" --use-npm --yes)",
+      "Bash(npx create-next-app:*)",
+      "Bash(timeout /t 10 /nobreak)",
+      "Bash(tasklist:*)",
+      "Bash(findstr:*)",
+      "Bash(if exist \".next\" rmdir /s /q \".next\")",
+      "Bash(vercel:*)",
+      "Bash(npm run build:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(if exist \"customer-app\\\\.git\" rd /s /q \"customer-app\\\\.git\")",
+      "Bash(if exist \"shop-owner-app\\\\.git\" rd /s /q \"shop-owner-app\\\\.git\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\SanthoshKumarShakkar\\Namthindivanam\\shop-owner-app\\app"
+    ]
+  }
+}
