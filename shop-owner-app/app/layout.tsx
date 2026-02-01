@@ -21,7 +21,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  themeColor: "#27ae60",
+  userScalable: false,
+  themeColor: "#10b981",
 };
 
 export default function RootLayout({
@@ -31,9 +32,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased bg-gray-50 min-h-screen">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
+      <body className="antialiased min-h-screen">
         <Providers>
-          <main className="max-w-lg mx-auto min-h-screen bg-gray-50">
+          <main className="max-w-lg mx-auto min-h-screen relative">
             {children}
           </main>
           <BottomNav />

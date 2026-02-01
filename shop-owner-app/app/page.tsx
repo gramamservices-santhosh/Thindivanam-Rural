@@ -27,8 +27,9 @@ export default function DashboardPage() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-green-500 border-t-transparent" />
+      <div className="min-h-screen flex items-center justify-center flex-col gap-4">
+        <div className="w-12 h-12 rounded-full border-4 border-emerald-200 border-t-emerald-600 animate-spin" />
+        <p className="text-slate-500 text-sm font-medium">Loading...</p>
       </div>
     );
   }
@@ -62,32 +63,36 @@ export default function DashboardPage() {
       )}
 
       {/* Header */}
-      <div className="gradient-shop px-4 pt-6 pb-8 rounded-b-[30px]">
-        <div className="flex items-center justify-between mb-4">
+      <div className="gradient-shop px-5 pt-6 pb-10 rounded-b-[32px]">
+        <div className="flex items-center justify-between mb-5">
           <div>
-            <p className="text-white/80 text-sm">Welcome back,</p>
-            <h1 className="text-white text-xl font-bold">{shopData.shopName}</h1>
+            <p className="text-white/70 text-sm font-medium">Welcome back,</p>
+            <h1 className="text-white text-xl font-bold tracking-tight">{shopData.shopName}</h1>
           </div>
-          <img src="/logo.svg" alt="Nam Tindivanam" className="h-10" />
+          <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+            <span className="text-xl">🏪</span>
+          </div>
         </div>
 
         {/* Shop Status */}
-        <div className="flex items-center gap-2">
-          <div
-            className={`w-3 h-3 rounded-full ${
-              shopData.isOpen ? 'bg-green-300 animate-pulse' : 'bg-red-300'
-            }`}
-          />
-          <span className="text-white/90 text-sm">
-            Shop is {shopData.isOpen ? 'Open' : 'Closed'}
-          </span>
+        <div className="flex items-center gap-3 flex-wrap">
+          <div className={`flex items-center gap-2 px-4 py-2 rounded-xl ${shopData.isOpen ? 'bg-white/20' : 'bg-white/10'}`}>
+            <div
+              className={`w-2.5 h-2.5 rounded-full ${
+                shopData.isOpen ? 'bg-green-300 animate-pulse' : 'bg-red-300'
+              }`}
+            />
+            <span className="text-white font-medium text-sm">
+              {shopData.isOpen ? 'Open' : 'Closed'}
+            </span>
+          </div>
           {isPending && (
-            <span className="ml-2 px-2 py-0.5 bg-yellow-400 text-yellow-900 text-xs rounded-full font-medium">
+            <span className="px-3 py-1.5 bg-amber-400 text-amber-900 text-xs rounded-xl font-semibold">
               Pending Approval
             </span>
           )}
           {isSuspended && (
-            <span className="ml-2 px-2 py-0.5 bg-red-400 text-white text-xs rounded-full font-medium">
+            <span className="px-3 py-1.5 bg-red-400 text-white text-xs rounded-xl font-semibold">
               Suspended
             </span>
           )}
@@ -96,12 +101,14 @@ export default function DashboardPage() {
 
       {/* Status Alerts */}
       {isPending && (
-        <div className="mx-4 mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
+        <div className="mx-5 mt-5 p-4 bg-amber-50 border border-amber-200 rounded-2xl animate-fade-in">
           <div className="flex items-start gap-3">
-            <AlertCircle className="text-yellow-600 flex-shrink-0" size={20} />
+            <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0">
+              <AlertCircle className="text-amber-600" size={20} />
+            </div>
             <div>
-              <p className="font-medium text-yellow-800">Awaiting Approval</p>
-              <p className="text-sm text-yellow-700 mt-1">
+              <p className="font-semibold text-amber-800">Awaiting Approval</p>
+              <p className="text-sm text-amber-700 mt-1 leading-relaxed">
                 Your shop is under review. Admin will activate it within 24 hours.
               </p>
             </div>
@@ -110,12 +117,14 @@ export default function DashboardPage() {
       )}
 
       {isSuspended && (
-        <div className="mx-4 mt-4 p-4 bg-red-50 border border-red-200 rounded-xl">
+        <div className="mx-5 mt-5 p-4 bg-red-50 border border-red-200 rounded-2xl animate-fade-in">
           <div className="flex items-start gap-3">
-            <AlertCircle className="text-red-600 flex-shrink-0" size={20} />
+            <div className="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center flex-shrink-0">
+              <AlertCircle className="text-red-600" size={20} />
+            </div>
             <div>
-              <p className="font-medium text-red-800">Shop Suspended</p>
-              <p className="text-sm text-red-700 mt-1">
+              <p className="font-semibold text-red-800">Shop Suspended</p>
+              <p className="text-sm text-red-700 mt-1 leading-relaxed">
                 Your shop has been suspended. Please contact admin for more information.
               </p>
             </div>
@@ -124,8 +133,8 @@ export default function DashboardPage() {
       )}
 
       {/* Stats Grid */}
-      <div className="px-4 py-4">
-        <div className="grid grid-cols-2 gap-3">
+      <div className="px-5 py-5">
+        <div className="grid grid-cols-2 gap-4">
           {ordersLoading ? (
             <>
               <StatCardSkeleton />
@@ -134,7 +143,7 @@ export default function DashboardPage() {
               <StatCardSkeleton />
             </>
           ) : (
-            <>
+            <div className="contents animate-fade-in">
               <StatCard
                 title="Today's Orders"
                 value={todayOrders.length}
@@ -161,7 +170,7 @@ export default function DashboardPage() {
                 color="purple"
                 subtitle={`${shopData.totalReviews} reviews`}
               />
-            </>
+            </div>
           )}
         </div>
       </div>
@@ -170,107 +179,109 @@ export default function DashboardPage() {
       {pendingCount > 0 && (
         <Link
           href="/orders"
-          className="mx-4 mb-4 p-4 bg-red-500 text-white rounded-xl flex items-center justify-between alert-pulse"
+          className="mx-5 mb-5 p-5 bg-gradient-to-r from-red-500 to-rose-500 text-white rounded-2xl flex items-center justify-between alert-pulse shadow-lg shadow-red-500/25"
         >
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
               <Clock size={24} />
             </div>
             <div>
-              <p className="font-bold">{pendingCount} New Order{pendingCount > 1 ? 's' : ''}</p>
-              <p className="text-sm text-white/80">Tap to view and accept</p>
+              <p className="font-bold text-lg">{pendingCount} New Order{pendingCount > 1 ? 's' : ''}</p>
+              <p className="text-sm text-white/80 font-medium">Tap to view and accept</p>
             </div>
           </div>
-          <div className="text-2xl">→</div>
+          <div className="text-2xl font-bold">→</div>
         </Link>
       )}
 
       {/* Quick Actions */}
-      <div className="px-4">
-        <h2 className="text-lg font-bold text-gray-800 mb-3">Quick Actions</h2>
-        <div className="grid grid-cols-2 gap-3">
+      <div className="px-5">
+        <h2 className="text-lg font-bold text-slate-800 mb-4 tracking-tight">Quick Actions</h2>
+        <div className="grid grid-cols-2 gap-4">
           <Link
             href="/orders"
-            className="bg-white rounded-xl p-4 card-shadow flex items-center gap-3"
+            className="bg-white rounded-2xl p-4 card-shadow card-hover flex items-center gap-3 border border-slate-100"
           >
-            <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
-              <ClipboardList className="text-blue-600" size={24} />
+            <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center">
+              <ClipboardList className="text-blue-600" size={22} />
             </div>
             <div>
-              <p className="font-semibold text-gray-800">Orders</p>
-              <p className="text-sm text-gray-500">Manage orders</p>
+              <p className="font-semibold text-slate-800">Orders</p>
+              <p className="text-sm text-slate-500">Manage orders</p>
             </div>
           </Link>
 
           <Link
             href="/products"
-            className="bg-white rounded-xl p-4 card-shadow flex items-center gap-3"
+            className="bg-white rounded-2xl p-4 card-shadow card-hover flex items-center gap-3 border border-slate-100"
           >
-            <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
-              <Package className="text-green-600" size={24} />
+            <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center">
+              <Package className="text-emerald-600" size={22} />
             </div>
             <div>
-              <p className="font-semibold text-gray-800">Products</p>
-              <p className="text-sm text-gray-500">Manage items</p>
+              <p className="font-semibold text-slate-800">Products</p>
+              <p className="text-sm text-slate-500">Manage items</p>
             </div>
           </Link>
 
           <Link
             href="/analytics"
-            className="bg-white rounded-xl p-4 card-shadow flex items-center gap-3"
+            className="bg-white rounded-2xl p-4 card-shadow card-hover flex items-center gap-3 border border-slate-100"
           >
-            <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center">
-              <BarChart3 className="text-purple-600" size={24} />
+            <div className="w-12 h-12 rounded-xl bg-violet-50 flex items-center justify-center">
+              <BarChart3 className="text-violet-600" size={22} />
             </div>
             <div>
-              <p className="font-semibold text-gray-800">Analytics</p>
-              <p className="text-sm text-gray-500">View stats</p>
+              <p className="font-semibold text-slate-800">Analytics</p>
+              <p className="text-sm text-slate-500">View stats</p>
             </div>
           </Link>
 
           <Link
             href="/settings"
-            className="bg-white rounded-xl p-4 card-shadow flex items-center gap-3"
+            className="bg-white rounded-2xl p-4 card-shadow card-hover flex items-center gap-3 border border-slate-100"
           >
-            <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center">
-              <Settings className="text-orange-600" size={24} />
+            <div className="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center">
+              <Settings className="text-amber-600" size={22} />
             </div>
             <div>
-              <p className="font-semibold text-gray-800">Settings</p>
-              <p className="text-sm text-gray-500">Shop settings</p>
+              <p className="font-semibold text-slate-800">Settings</p>
+              <p className="text-sm text-slate-500">Shop settings</p>
             </div>
           </Link>
         </div>
       </div>
 
       {/* Recent Orders */}
-      <div className="px-4 py-4">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-lg font-bold text-gray-800">Recent Orders</h2>
-          <Link href="/orders" className="text-green-600 font-medium text-sm">
-            View All
+      <div className="px-5 py-5">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-bold text-slate-800 tracking-tight">Recent Orders</h2>
+          <Link href="/orders" className="text-emerald-600 font-semibold text-sm hover:text-emerald-700 transition-colors">
+            View All →
           </Link>
         </div>
 
         {orders.length > 0 ? (
-          <div className="space-y-3">
+          <div className="space-y-3 animate-fade-in">
             {orders.slice(0, 3).map((order) => (
               <div
                 key={order.orderId}
-                className="bg-white rounded-xl p-4 card-shadow flex items-center justify-between"
+                className="bg-white rounded-2xl p-4 card-shadow flex items-center justify-between border border-slate-100"
               >
                 <div>
-                  <p className="font-semibold text-gray-800">#{order.orderId}</p>
-                  <p className="text-sm text-gray-500">{order.customerName}</p>
+                  <p className="font-bold text-slate-800">#{order.orderId}</p>
+                  <p className="text-sm text-slate-500 font-medium">{order.customerName}</p>
                 </div>
                 <div className="text-right">
-                  <p className="font-bold text-green-600">₹{order.total}</p>
+                  <p className="font-bold text-emerald-600 text-lg">₹{order.total}</p>
                   <span
-                    className={`text-xs px-2 py-0.5 rounded-full ${
+                    className={`text-xs px-3 py-1 rounded-full font-semibold capitalize ${
                       order.status === 'pending'
-                        ? 'bg-yellow-100 text-yellow-700'
+                        ? 'bg-amber-100 text-amber-700'
                         : order.status === 'delivered'
-                        ? 'bg-green-100 text-green-700'
+                        ? 'bg-emerald-100 text-emerald-700'
+                        : order.status === 'rejected'
+                        ? 'bg-red-100 text-red-700'
                         : 'bg-blue-100 text-blue-700'
                     }`}
                   >
@@ -281,9 +292,9 @@ export default function DashboardPage() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-8 bg-white rounded-xl card-shadow">
-            <ClipboardList size={40} className="text-gray-300 mx-auto mb-2" />
-            <p className="text-gray-500">No orders yet</p>
+          <div className="text-center py-12 bg-white rounded-2xl card-shadow border border-slate-100">
+            <ClipboardList size={48} className="text-slate-300 mx-auto mb-3" />
+            <p className="text-slate-500 font-medium">No orders yet</p>
           </div>
         )}
       </div>
