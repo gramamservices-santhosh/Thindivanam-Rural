@@ -29,14 +29,33 @@ export default function ProfilePage() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-purple-500 border-t-transparent" />
+      <div className="min-h-screen flex items-center justify-center flex-col gap-4">
+        <div className="w-12 h-12 rounded-full border-4 border-indigo-200 border-t-indigo-600 animate-spin" />
+        <p className="text-slate-500 text-sm font-medium">Loading profile...</p>
       </div>
     );
   }
 
-  if (!user || !userData) {
+  if (!user) {
     return null;
+  }
+
+  if (!userData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center flex-col gap-4 p-6">
+        <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center">
+          <User className="text-amber-600" size={32} />
+        </div>
+        <h2 className="text-lg font-bold text-slate-800">Profile Not Found</h2>
+        <p className="text-slate-500 text-sm text-center">Unable to load your profile. Please try logging in again.</p>
+        <button
+          onClick={handleLogout}
+          className="btn-primary mt-4"
+        >
+          Logout and Try Again
+        </button>
+      </div>
+    );
   }
 
   const menuItems = [

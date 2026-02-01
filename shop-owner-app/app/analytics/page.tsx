@@ -19,14 +19,33 @@ export default function AnalyticsPage() {
 
   if (authLoading || ordersLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-green-500 border-t-transparent" />
+      <div className="min-h-screen flex items-center justify-center flex-col gap-4">
+        <div className="w-12 h-12 rounded-full border-4 border-emerald-200 border-t-emerald-600 animate-spin" />
+        <p className="text-slate-500 text-sm font-medium">Loading analytics...</p>
       </div>
     );
   }
 
-  if (!user || !shopData) {
+  if (!user) {
     return null;
+  }
+
+  if (!shopData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center flex-col gap-4 p-6">
+        <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center">
+          <TrendingUp className="text-amber-600" size={32} />
+        </div>
+        <h2 className="text-lg font-bold text-slate-800">Shop Data Not Found</h2>
+        <p className="text-slate-500 text-sm text-center">Unable to load analytics. Please go back and try again.</p>
+        <button
+          onClick={() => router.push('/')}
+          className="btn-primary mt-4"
+        >
+          Go to Dashboard
+        </button>
+      </div>
+    );
   }
 
   // Calculate stats
