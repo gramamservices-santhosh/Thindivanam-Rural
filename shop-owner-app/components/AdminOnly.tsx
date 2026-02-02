@@ -15,7 +15,7 @@ export default function AdminOnly({ children }: AdminOnlyProps) {
 
   useEffect(() => {
     if (!loading && !isAdmin) {
-      router.push('/');
+      router.push('/admin/login');
     }
   }, [loading, isAdmin, router]);
 
