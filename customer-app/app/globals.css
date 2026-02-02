@@ -237,19 +237,23 @@ body {
 }
 
 .btn-primary {
-  background: linear-gradient(145deg, #6366f1 0%, #8b5cf6 100%);
+  background: linear-gradient(145deg, #f97316 0%, #ea580c 100%);
   color: white;
-  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.35);
+  height: 56px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .btn-primary:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45);
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.45);
 }
 
 .btn-primary:active:not(:disabled) {
   transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
 }
 
 .btn-secondary {
@@ -272,27 +276,29 @@ body {
   color: var(--text-dark);
 }
 
-/* Input Styles */
+/* Input Styles - Fintech Grade */
 .input-field {
   width: 100%;
-  padding: 14px 18px;
-  border: 2px solid var(--border-color);
-  border-radius: 14px;
+  padding: 16px 20px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 12px;
   font-size: 16px;
   font-weight: 500;
   transition: all 0.2s ease;
-  background: white;
+  background: #ffffff;
   color: var(--text-dark);
+  height: 56px;
 }
 
 .input-field:focus {
   outline: none;
   border-color: var(--customer-primary);
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+  background: #ffffff;
 }
 
 .input-field::placeholder {
-  color: var(--text-light);
+  color: #9ca3af;
   font-weight: 400;
 }
 
@@ -301,14 +307,19 @@ body {
   cursor: not-allowed;
 }
 
-/* Form Label */
+/* Form Label - Fintech Grade */
 .form-label {
   display: block;
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-dark);
-  margin-bottom: 8px;
+  color: #374151;
+  margin-bottom: 10px;
   letter-spacing: -0.01em;
+}
+
+/* Form Group Spacing */
+.form-group {
+  margin-bottom: 24px;
 }
 
 /* Badge Styles */
@@ -521,4 +532,142 @@ body {
 /* Bottom navigation safe area */
 .bottom-nav {
   padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+/* Fintech Login Page Styles */
+.login-container {
+  min-height: 100vh;
+  background: linear-gradient(165deg, #1e1b4b 0%, #312e81 40%, #4338ca 100%);
+}
+
+.login-header {
+  padding: 48px 24px 40px;
+  text-align: center;
+}
+
+.login-logo {
+  width: 72px;
+  height: 72px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.login-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.login-subtitle {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+}
+
+.login-card {
+  background: #ffffff;
+  border-radius: 28px 28px 0 0;
+  padding: 32px 24px 40px;
+  min-height: calc(100vh - 200px);
+  box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.input-with-icon {
+  padding-left: 52px !important;
+}
+
+.input-with-icon-right {
+  padding-right: 52px !important;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 1;
+}
+
+.password-toggle:hover {
+  color: #6b7280;
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 8px 0;
+}
+
+.login-divider-line {
+  flex: 1;
+  height: 1px;
+  background: #e5e7eb;
+}
+
+.login-divider-text {
+  font-size: 13px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.login-footer-text {
+  color: #6b7280;
+  font-size: 15px;
+}
+
+.login-footer-link {
+  color: #f97316;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-footer-link:hover {
+  color: #ea580c;
+}
+
+.login-tagline {
+  text-align: center;
+  padding: 24px;
+  color: #9ca3af;
+  font-size: 13px;
+  font-weight: 500;
 }

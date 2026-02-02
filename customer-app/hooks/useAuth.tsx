@@ -40,16 +40,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      setUser(firebaseUser);
-      if (firebaseUser) {
-        const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-        if (userDoc.exists()) {
-          setUserData(userDoc.data() as User);
+      try {
+        setUser(firebaseUser);
+        if (firebaseUser) {
+          try {
+            const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+            if (userDoc.exists()) {
+              setUserData(userDoc.data() as User);
+            } else {
+              setUserData(null);
+            }
+          } catch (error) {
+            console.error('Error fetching user data:', error);
+            setUserData(null);
+          }
+        } else {
+          setUserData(null);
         }
-      } else {
-        setUserData(null);
+      } catch (error) {
+        console.error('Auth state change error:', error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     });
 
     return () => unsubscribe();

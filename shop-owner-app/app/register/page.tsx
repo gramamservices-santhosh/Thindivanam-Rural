@@ -151,14 +151,14 @@ export default function RegisterPage() {
         <div className="bg-white rounded-2xl shadow-xl p-6">
           <form onSubmit={handleSubmit}>
             {step === 1 && (
-              <div className="space-y-4">
+              <div className="space-y-5">
                 <h2 className="text-lg font-bold text-gray-800 mb-4">Shop Details</h2>
 
                 {/* Shop Name */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Shop Name *</label>
-                  <div className="relative">
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                  <label className="form-label">Shop Name *</label>
+                  <div className="input-wrapper">
+                    <div className="input-icon">
                       <Store size={20} />
                     </div>
                     <input
@@ -167,16 +167,16 @@ export default function RegisterPage() {
                       value={formData.shopName}
                       onChange={handleChange}
                       placeholder="e.g., Kumar Vegetables"
-                      className="input-field pl-10"
+                      className="input-field input-with-icon"
                     />
                   </div>
                 </div>
 
                 {/* Owner Name */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Owner Name *</label>
-                  <div className="relative">
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                  <label className="form-label">Owner Name *</label>
+                  <div className="input-wrapper">
+                    <div className="input-icon">
                       <User size={20} />
                     </div>
                     <input
@@ -185,16 +185,16 @@ export default function RegisterPage() {
                       value={formData.ownerName}
                       onChange={handleChange}
                       placeholder="Enter your name"
-                      className="input-field pl-10"
+                      className="input-field input-with-icon"
                     />
                   </div>
                 </div>
 
                 {/* Phone */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
-                  <div className="relative">
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                  <label className="form-label">Phone Number *</label>
+                  <div className="input-wrapper">
+                    <div className="input-icon">
                       <Phone size={20} />
                     </div>
                     <input
@@ -203,7 +203,7 @@ export default function RegisterPage() {
                       value={formData.phone}
                       onChange={handleChange}
                       placeholder="Enter 10-digit number"
-                      className="input-field pl-10"
+                      className="input-field input-with-icon"
                       maxLength={10}
                     />
                   </div>
@@ -211,9 +211,9 @@ export default function RegisterPage() {
 
                 {/* Email */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Email (Optional)</label>
-                  <div className="relative">
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                  <label className="form-label">Email (Optional)</label>
+                  <div className="input-wrapper">
+                    <div className="input-icon">
                       <Mail size={20} />
                     </div>
                     <input
@@ -222,16 +222,16 @@ export default function RegisterPage() {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="Enter email"
-                      className="input-field pl-10"
+                      className="input-field input-with-icon"
                     />
                   </div>
                 </div>
 
                 {/* Password */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Password *</label>
-                  <div className="relative">
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                  <label className="form-label">Password *</label>
+                  <div className="input-wrapper">
+                    <div className="input-icon">
                       <Lock size={20} />
                     </div>
                     <input
@@ -240,12 +240,12 @@ export default function RegisterPage() {
                       value={formData.password}
                       onChange={handleChange}
                       placeholder="Min 6 characters"
-                      className="input-field pl-10 pr-10"
+                      className="input-field input-with-icon input-with-icon-right"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                      className="password-toggle"
                     >
                       {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                     </button>
@@ -254,9 +254,9 @@ export default function RegisterPage() {
 
                 {/* Confirm Password */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Confirm Password *</label>
-                  <div className="relative">
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                  <label className="form-label">Confirm Password *</label>
+                  <div className="input-wrapper">
+                    <div className="input-icon">
                       <Lock size={20} />
                     </div>
                     <input
@@ -265,7 +265,7 @@ export default function RegisterPage() {
                       value={formData.confirmPassword}
                       onChange={handleChange}
                       placeholder="Confirm password"
-                      className="input-field pl-10"
+                      className="input-field input-with-icon"
                     />
                   </div>
                 </div>
@@ -281,14 +281,14 @@ export default function RegisterPage() {
             )}
 
             {step === 2 && (
-              <div className="space-y-4">
+              <div className="space-y-5">
                 <h2 className="text-lg font-bold text-gray-800 mb-4">Business Settings</h2>
 
                 {/* Address */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Shop Address *</label>
-                  <div className="relative">
-                    <div className="absolute left-3 top-3 text-gray-400">
+                  <label className="form-label">Shop Address *</label>
+                  <div className="input-wrapper">
+                    <div className="input-icon" style={{ top: '24px' }}>
                       <MapPin size={20} />
                     </div>
                     <textarea
@@ -297,14 +297,15 @@ export default function RegisterPage() {
                       onChange={handleChange}
                       placeholder="Full shop address"
                       rows={2}
-                      className="input-field pl-10 resize-none"
+                      className="input-field input-with-icon resize-none"
+                      style={{ height: 'auto', minHeight: '80px' }}
                     />
                   </div>
                 </div>
 
                 {/* Category */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Shop Category *</label>
+                  <label className="form-label">Shop Category *</label>
                   <div className="grid grid-cols-3 gap-2">
                     {categories.map((cat) => (
                       <button
@@ -327,9 +328,9 @@ export default function RegisterPage() {
                 {/* Delivery Charge & Radius */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Delivery Charge</label>
-                    <div className="relative">
-                      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                    <label className="form-label">Delivery Charge</label>
+                    <div className="input-wrapper">
+                      <div className="input-icon">
                         <IndianRupee size={18} />
                       </div>
                       <input
@@ -338,14 +339,14 @@ export default function RegisterPage() {
                         value={formData.deliveryCharge}
                         onChange={handleChange}
                         placeholder="20"
-                        className="input-field pl-10"
+                        className="input-field input-with-icon"
                       />
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Radius (km)</label>
-                    <div className="relative">
-                      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                    <label className="form-label">Radius (km)</label>
+                    <div className="input-wrapper">
+                      <div className="input-icon">
                         <Truck size={18} />
                       </div>
                       <input
@@ -354,7 +355,7 @@ export default function RegisterPage() {
                         value={formData.deliveryRadius}
                         onChange={handleChange}
                         placeholder="5"
-                        className="input-field pl-10"
+                        className="input-field input-with-icon"
                         max={10}
                       />
                     </div>
@@ -364,12 +365,12 @@ export default function RegisterPage() {
 
                 {/* Business Hours */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Business Hours</label>
+                  <label className="form-label">Business Hours</label>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-xs text-gray-500">Open Time</label>
-                      <div className="relative">
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                      <label className="text-xs text-gray-500 mb-1 block">Open Time</label>
+                      <div className="input-wrapper">
+                        <div className="input-icon">
                           <Clock size={18} />
                         </div>
                         <input
@@ -377,14 +378,14 @@ export default function RegisterPage() {
                           name="openTime"
                           value={formData.openTime}
                           onChange={handleChange}
-                          className="input-field pl-10"
+                          className="input-field input-with-icon"
                         />
                       </div>
                     </div>
                     <div>
-                      <label className="text-xs text-gray-500">Close Time</label>
-                      <div className="relative">
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                      <label className="text-xs text-gray-500 mb-1 block">Close Time</label>
+                      <div className="input-wrapper">
+                        <div className="input-icon">
                           <Clock size={18} />
                         </div>
                         <input
@@ -392,7 +393,7 @@ export default function RegisterPage() {
                           name="closeTime"
                           value={formData.closeTime}
                           onChange={handleChange}
-                          className="input-field pl-10"
+                          className="input-field input-with-icon"
                         />
                       </div>
                     </div>
@@ -403,7 +404,7 @@ export default function RegisterPage() {
                   <button
                     type="button"
                     onClick={() => setStep(1)}
-                    className="flex-1 py-3 rounded-xl border-2 border-gray-200 font-semibold text-gray-700"
+                    className="flex-1 py-4 rounded-xl border-2 border-gray-200 font-semibold text-gray-700"
                   >
                     Back
                   </button>
@@ -427,9 +428,15 @@ export default function RegisterPage() {
           </form>
 
           {/* Login Link */}
-          <p className="text-center mt-6 text-gray-600">
+          <div className="login-divider">
+            <div className="login-divider-line" />
+            <span className="login-divider-text">or</span>
+            <div className="login-divider-line" />
+          </div>
+
+          <p className="text-center text-gray-600">
             Already have a shop?{' '}
-            <Link href="/login" className="text-green-600 font-semibold hover:underline">
+            <Link href="/login" className="login-footer-link">
               Login here
             </Link>
           </p>

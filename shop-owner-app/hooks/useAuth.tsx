@@ -44,21 +44,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   const fetchShopData = async (userId: string) => {
-    const shopDoc = await getDoc(doc(db, 'shops', userId));
-    if (shopDoc.exists()) {
-      setShopData({ ...shopDoc.data(), shopId: shopDoc.id } as Shop);
+    try {
+      const shopDoc = await getDoc(doc(db, 'shops', userId));
+      if (shopDoc.exists()) {
+        setShopData({ ...shopDoc.data(), shopId: shopDoc.id } as Shop);
+      } else {
+        setShopData(null);
+      }
+    } catch (error) {
+      console.error('Error fetching shop data:', error);
+      setShopData(null);
     }
   };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      setUser(firebaseUser);
-      if (firebaseUser) {
-        await fetchShopData(firebaseUser.uid);
-      } else {
-        setShopData(null);
+      try {
+        setUser(firebaseUser);
+        if (firebaseUser) {
+          await fetchShopData(firebaseUser.uid);
+        } else {
+          setShopData(null);
+        }
+      } catch (error) {
+        console.error('Auth state change error:', error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     });
 
     return () => unsubscribe();

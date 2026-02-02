@@ -47,107 +47,98 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Header with gradient */}
-      <div className="gradient-shop px-6 pt-12 pb-20 rounded-b-[40px]">
-        <div className="flex justify-center mb-6">
-          <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
-            <Store className="text-white" size={32} />
-          </div>
+    <div className="login-container">
+      {/* Header Section */}
+      <div className="login-header">
+        <div className="login-logo">
+          <Store className="text-white" size={36} />
         </div>
-        <h1 className="text-white text-2xl font-bold text-center tracking-tight">
-          Shop Owner Portal
-        </h1>
-        <p className="text-white/80 text-center mt-2 text-sm">
-          Manage your shop and orders
-        </p>
+        <h1 className="login-title">Shop Owner Portal</h1>
+        <p className="login-subtitle">Manage your shop and orders</p>
       </div>
 
-      {/* Login Form */}
-      <div className="flex-1 px-5 -mt-10">
-        <div className="bg-white rounded-3xl card-shadow-lg p-6 animate-fade-in">
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Phone Input */}
-            <div>
-              <label className="form-label">Phone Number</label>
-              <div className="relative">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
-                  <Phone size={18} />
-                </div>
-                <input
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                  placeholder="Enter 10-digit number"
-                  className="input-field"
-                  style={{ paddingLeft: '48px' }}
-                  maxLength={10}
-                />
+      {/* Login Card */}
+      <div className="login-card animate-fade-in">
+        <form onSubmit={handleSubmit} className="login-form">
+          {/* Phone Input */}
+          <div>
+            <label className="form-label">Phone Number</label>
+            <div className="input-wrapper">
+              <div className="input-icon">
+                <Phone size={20} />
               </div>
+              <input
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                placeholder="Enter 10-digit number"
+                className="input-field input-with-icon"
+                maxLength={10}
+              />
             </div>
-
-            {/* Password Input */}
-            <div>
-              <label className="form-label">Password</label>
-              <div className="relative">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
-                  <Lock size={18} />
-                </div>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
-                  className="input-field"
-                  style={{ paddingLeft: '48px', paddingRight: '48px' }}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
-                >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
-              </div>
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn-primary w-full mt-2"
-            >
-              {loading ? (
-                <>
-                  <Loader2 size={20} className="animate-spin" />
-                  <span>Logging in...</span>
-                </>
-              ) : (
-                'Login'
-              )}
-            </button>
-          </form>
-
-          {/* Divider */}
-          <div className="flex items-center gap-4 my-6">
-            <div className="flex-1 h-px bg-slate-200" />
-            <span className="text-sm text-slate-400">or</span>
-            <div className="flex-1 h-px bg-slate-200" />
           </div>
 
-          {/* Register Link */}
-          <p className="text-center text-slate-600">
+          {/* Password Input */}
+          <div>
+            <label className="form-label">Password</label>
+            <div className="input-wrapper">
+              <div className="input-icon">
+                <Lock size={20} />
+              </div>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                className="input-field input-with-icon input-with-icon-right"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="password-toggle"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="btn-primary w-full"
+            style={{ marginTop: '8px' }}
+          >
+            {loading ? (
+              <>
+                <Loader2 size={20} className="animate-spin" />
+                <span>Signing in...</span>
+              </>
+            ) : (
+              'Sign In'
+            )}
+          </button>
+        </form>
+
+        {/* Divider */}
+        <div className="login-divider">
+          <div className="login-divider-line" />
+          <span className="login-divider-text">or</span>
+          <div className="login-divider-line" />
+        </div>
+
+        {/* Register Link */}
+        <div className="login-footer">
+          <p className="login-footer-text">
             New shop owner?{' '}
-            <Link href="/register" className="text-emerald-600 font-semibold hover:text-emerald-700 transition-colors">
+            <Link href="/register" className="login-footer-link">
               Register your shop
             </Link>
           </p>
         </div>
-      </div>
 
-      {/* Footer */}
-      <div className="p-6 text-center">
-        <p className="text-sm text-slate-500 font-medium">
+        {/* Tagline */}
+        <p className="login-tagline">
           Grow your business with Nam Tindivanam
         </p>
       </div>

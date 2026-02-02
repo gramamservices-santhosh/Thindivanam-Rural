@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Store, MapPin, Truck, Clock, IndianRupee, LogOut, Loader2, ToggleLeft, ToggleRight } from 'lucide-react';
+import { ArrowLeft, Store, MapPin, Truck, Clock, IndianRupee, LogOut, Loader2 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/components/Toast';
 
@@ -167,29 +167,34 @@ export default function SettingsPage() {
         <div className="bg-white rounded-2xl p-4 card-shadow">
           <h2 className="text-lg font-bold text-gray-800 mb-4">Shop Details</h2>
 
-          <div className="space-y-4">
+          <div className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Shop Name</label>
-              <div className="relative">
-                <Store className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+              <label className="form-label">Shop Name</label>
+              <div className="input-wrapper">
+                <div className="input-icon">
+                  <Store size={18} />
+                </div>
                 <input
                   type="text"
                   value={formData.shopName}
                   onChange={(e) => setFormData((p) => ({ ...p, shopName: e.target.value }))}
-                  className="input-field pl-10"
+                  className="input-field input-with-icon"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
-              <div className="relative">
-                <MapPin className="absolute left-3 top-3 text-gray-400" size={18} />
+              <label className="form-label">Address</label>
+              <div className="input-wrapper">
+                <div className="input-icon" style={{ top: '24px' }}>
+                  <MapPin size={18} />
+                </div>
                 <textarea
                   value={formData.address}
                   onChange={(e) => setFormData((p) => ({ ...p, address: e.target.value }))}
                   rows={2}
-                  className="input-field pl-10 resize-none"
+                  className="input-field input-with-icon resize-none"
+                  style={{ height: 'auto', minHeight: '80px' }}
                 />
               </div>
             </div>
@@ -200,30 +205,34 @@ export default function SettingsPage() {
         <div className="bg-white rounded-2xl p-4 card-shadow">
           <h2 className="text-lg font-bold text-gray-800 mb-4">Business Settings</h2>
 
-          <div className="space-y-4">
+          <div className="space-y-5">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Delivery Charge (₹)</label>
-                <div className="relative">
-                  <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                <label className="form-label">Delivery Charge (₹)</label>
+                <div className="input-wrapper">
+                  <div className="input-icon">
+                    <IndianRupee size={18} />
+                  </div>
                   <input
                     type="number"
                     value={formData.deliveryCharge}
                     onChange={(e) => setFormData((p) => ({ ...p, deliveryCharge: e.target.value }))}
-                    className="input-field pl-10"
+                    className="input-field input-with-icon"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Radius (km)</label>
-                <div className="relative">
-                  <Truck className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                <label className="form-label">Radius (km)</label>
+                <div className="input-wrapper">
+                  <div className="input-icon">
+                    <Truck size={18} />
+                  </div>
                   <input
                     type="number"
                     value={formData.deliveryRadius}
                     onChange={(e) => setFormData((p) => ({ ...p, deliveryRadius: e.target.value }))}
                     max={10}
-                    className="input-field pl-10"
+                    className="input-field input-with-icon"
                   />
                 </div>
                 <p className="text-xs text-gray-500 mt-1">Max 10 km</p>
@@ -231,29 +240,33 @@ export default function SettingsPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Business Hours</label>
+              <label className="form-label">Business Hours</label>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs text-gray-500">Open Time</label>
-                  <div className="relative">
-                    <Clock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                  <label className="text-xs text-gray-500 mb-1 block">Open Time</label>
+                  <div className="input-wrapper">
+                    <div className="input-icon">
+                      <Clock size={18} />
+                    </div>
                     <input
                       type="time"
                       value={formData.openTime}
                       onChange={(e) => setFormData((p) => ({ ...p, openTime: e.target.value }))}
-                      className="input-field pl-10"
+                      className="input-field input-with-icon"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="text-xs text-gray-500">Close Time</label>
-                  <div className="relative">
-                    <Clock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                  <label className="text-xs text-gray-500 mb-1 block">Close Time</label>
+                  <div className="input-wrapper">
+                    <div className="input-icon">
+                      <Clock size={18} />
+                    </div>
                     <input
                       type="time"
                       value={formData.closeTime}
                       onChange={(e) => setFormData((p) => ({ ...p, closeTime: e.target.value }))}
-                      className="input-field pl-10"
+                      className="input-field input-with-icon"
                     />
                   </div>
                 </div>
