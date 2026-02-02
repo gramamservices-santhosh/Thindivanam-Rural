@@ -2,17 +2,31 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    // Helper function to check if shop has isAdmin flag
+    function isShopAdmin() {
+      return request.auth != null &&
+        get(/databases/$(database)/documents/shops/$(request.auth.uid)).data.isAdmin == true;
+    }
+
     // Users collection - customers can read/write their own data
     match /users/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
-      allow read: if request.auth != null; // Shops can read user data for orders
+      allow read: if request.auth != null; // Shops and admins can read user data
     }
 
     // Shops collection - shop owners can read/write their own shop
     match /shops/{shopId} {
       allow read: if true; // Anyone can view shops
       allow create: if request.auth != null && request.auth.uid == shopId;
-      allow update, delete: if request.auth != null && request.auth.uid == shopId;
+      allow update: if request.auth != null &&
+        (request.auth.uid == shopId || isAdmin() || isShopAdmin());
+      allow delete: if request.auth != null && request.auth.uid == shopId;
     }
 
     // Products collection - shop owners can manage their products
@@ -25,14 +39,16 @@ service cloud.firestore {
 
     // Orders collection
     match /orders/{orderId} {
-      // Customers can create orders and read their own
+      // Anyone authenticated can create orders
       allow create: if request.auth != null;
+      // Customers, shop owners, and admins can read orders
       allow read: if request.auth != null &&
         (request.auth.uid == resource.data.customerId ||
-         request.auth.uid == resource.data.shopId);
-      // Shop owners can update orders (status changes)
+         request.auth.uid == resource.data.shopId ||
+         isAdmin() || isShopAdmin());
+      // Shop owners and admins can update orders
       allow update: if request.auth != null &&
-        request.auth.uid == resource.data.shopId;
+        (request.auth.uid == resource.data.shopId || isAdmin() || isShopAdmin());
     }
 
     // Reviews collection
@@ -41,6 +57,13 @@ service cloud.firestore {
       allow create: if request.auth != null;
       allow update, delete: if request.auth != null &&
         request.auth.uid == resource.data.customerId;
+    }
+
+    // Admins collection - for platform admins
+    match /admins/{adminId} {
+      allow read: if request.auth != null && request.auth.uid == adminId;
+      allow create: if request.auth != null && request.auth.uid == adminId;
+      allow update, delete: if request.auth != null && request.auth.uid == adminId;
     }
   }
 }
