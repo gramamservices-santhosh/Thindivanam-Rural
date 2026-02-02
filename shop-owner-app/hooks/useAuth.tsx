@@ -91,7 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       shopName: data.shopName,
       ownerName: data.ownerName,
       phone: data.phone,
-      email: data.email,
+      ...(data.email ? { email: data.email } : {}),
       address: data.address,
       category: data.category,
       deliveryCharge: data.deliveryCharge,
