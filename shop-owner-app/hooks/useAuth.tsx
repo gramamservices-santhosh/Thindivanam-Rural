@@ -85,6 +85,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const email = `shop_${data.phone}@namtindivanam.app`;
     const userCredential = await createUserWithEmailAndPassword(auth, email, data.password);
 
+    // Check if this phone is the admin phone
+    const adminPhones = (process.env.NEXT_PUBLIC_ADMIN_PHONES || '').split(',').map(p => p.trim());
+    const isAdminPhone = adminPhones.includes(data.phone);
+
     const newShop: Shop = {
       shopId: userCredential.user.uid,
       ownerId: userCredential.user.uid,
@@ -100,9 +104,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       rating: 0,
       totalReviews: 0,
       totalOrders: 0,
-      status: 'pending', // Needs admin approval
+      status: isAdminPhone ? 'active' : 'pending', // Admin is auto-approved
       isOpen: false,
-      isAdmin: false,
+      isAdmin: isAdminPhone, // Auto-admin if phone matches
       commissionRate: 10, // Default 10%
       createdAt: Timestamp.now(),
       updatedAt: Timestamp.now(),
