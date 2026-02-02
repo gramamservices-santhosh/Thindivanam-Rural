@@ -320,10 +320,10 @@ export default function ProductsPage() {
               {editingProduct ? 'Edit Product' : 'Add Product'}
             </h3>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-5">
               {/* Product Name */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Product Name *</label>
+                <label className="form-label">Product Name *</label>
                 <input
                   type="text"
                   value={formData.name}
@@ -336,7 +336,7 @@ export default function ProductsPage() {
 
               {/* Category */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Category *</label>
+                <label className="form-label">Category *</label>
                 <select
                   value={formData.category}
                   onChange={(e) => setFormData((p) => ({ ...p, category: e.target.value as any }))}
@@ -351,9 +351,9 @@ export default function ProductsPage() {
               </div>
 
               {/* Price & Unit */}
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Price (₹) *</label>
+                  <label className="form-label">Price (₹) *</label>
                   <input
                     type="number"
                     value={formData.price || ''}
@@ -364,7 +364,7 @@ export default function ProductsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Unit *</label>
+                  <label className="form-label">Unit *</label>
                   <select
                     value={formData.unit}
                     onChange={(e) => setFormData((p) => ({ ...p, unit: e.target.value as any }))}
@@ -380,9 +380,9 @@ export default function ProductsPage() {
               </div>
 
               {/* Offer Price & Text */}
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Offer Price (₹)</label>
+                  <label className="form-label">Offer Price (₹)</label>
                   <input
                     type="number"
                     value={formData.offerPrice || ''}
@@ -397,7 +397,7 @@ export default function ProductsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Offer Text</label>
+                  <label className="form-label">Offer Text</label>
                   <input
                     type="text"
                     value={formData.offerText}
@@ -410,20 +410,21 @@ export default function ProductsPage() {
 
               {/* Description */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <label className="form-label">Description</label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData((p) => ({ ...p, description: e.target.value }))}
                   placeholder="Fresh from farm..."
                   rows={2}
                   className="input-field resize-none"
+                  style={{ height: 'auto', minHeight: '80px' }}
                 />
               </div>
 
               {/* Image */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Product Image</label>
-                <div className="flex items-center gap-3">
+                <label className="form-label">Product Image</label>
+                <div className="flex items-center gap-4">
                   {imagePreview ? (
                     <img src={imagePreview} alt="Preview" className="w-20 h-20 object-cover rounded-xl" />
                   ) : (
@@ -431,7 +432,7 @@ export default function ProductsPage() {
                       <ImageIcon size={32} className="text-gray-300" />
                     </div>
                   )}
-                  <label className="btn-primary cursor-pointer text-sm">
+                  <label className="px-5 py-3 bg-orange-500 text-white font-semibold rounded-xl cursor-pointer hover:bg-orange-600 transition-colors">
                     Upload Image
                     <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
                   </label>
@@ -439,18 +440,18 @@ export default function ProductsPage() {
               </div>
 
               {/* In Stock Toggle */}
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
-                <span className="font-medium text-gray-700">In Stock</span>
+              <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                <span className="font-semibold text-gray-700">In Stock</span>
                 <button
                   type="button"
                   onClick={() => setFormData((p) => ({ ...p, inStock: !p.inStock }))}
-                  className={`w-12 h-6 rounded-full transition-colors ${
+                  className={`w-14 h-8 rounded-full transition-colors flex items-center px-1 ${
                     formData.inStock ? 'bg-green-500' : 'bg-gray-300'
                   }`}
                 >
                   <div
-                    className={`w-5 h-5 bg-white rounded-full shadow transition-transform ${
-                      formData.inStock ? 'translate-x-6' : 'translate-x-0.5'
+                    className={`w-6 h-6 bg-white rounded-full shadow-md transition-transform ${
+                      formData.inStock ? 'translate-x-6' : 'translate-x-0'
                     }`}
                   />
                 </button>

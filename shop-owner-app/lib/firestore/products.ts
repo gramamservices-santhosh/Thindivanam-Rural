@@ -54,12 +54,23 @@ export async function createProduct(data: CreateProductData, imageFile?: File): 
     imageUrl = await getDownloadURL(imageRef);
   }
 
-  const product = {
-    ...data,
-    imageUrl,
+  // Build product object without undefined values (Firestore rejects undefined)
+  const product: Record<string, any> = {
+    shopId: data.shopId,
+    name: data.name,
+    category: data.category,
+    price: data.price,
+    unit: data.unit,
+    inStock: data.inStock,
     createdAt: Timestamp.now(),
     updatedAt: Timestamp.now(),
   };
+
+  // Only add optional fields if they have values
+  if (data.description) product.description = data.description;
+  if (data.offerPrice !== undefined && data.offerPrice !== null) product.offerPrice = data.offerPrice;
+  if (data.offerText) product.offerText = data.offerText;
+  if (imageUrl) product.imageUrl = imageUrl;
 
   const docRef = await addDoc(collection(db, 'products'), product);
   return docRef.id;
@@ -72,10 +83,21 @@ export async function updateProduct(
 ): Promise<void> {
   const docRef = doc(db, 'products', productId);
 
-  let updateData: any = {
-    ...data,
+  // Build update object without undefined values
+  const updateData: Record<string, any> = {
     updatedAt: Timestamp.now(),
   };
+
+  // Only add defined fields
+  if (data.shopId !== undefined) updateData.shopId = data.shopId;
+  if (data.name !== undefined) updateData.name = data.name;
+  if (data.category !== undefined) updateData.category = data.category;
+  if (data.price !== undefined) updateData.price = data.price;
+  if (data.unit !== undefined) updateData.unit = data.unit;
+  if (data.inStock !== undefined) updateData.inStock = data.inStock;
+  if (data.description !== undefined) updateData.description = data.description || '';
+  if (data.offerPrice !== undefined) updateData.offerPrice = data.offerPrice || null;
+  if (data.offerText !== undefined) updateData.offerText = data.offerText || '';
 
   // Upload new image if provided
   if (imageFile) {
