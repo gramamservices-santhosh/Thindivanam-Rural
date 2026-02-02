@@ -2,16 +2,17 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, MapPin, Plus, CreditCard, Truck, CheckCircle, Loader2 } from 'lucide-react';
+import { ArrowLeft, MapPin, Plus, CreditCard, Truck, CheckCircle, Loader2, X } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useCart } from '@/hooks/useCart';
 import { useToast } from '@/components/Toast';
 import { createOrder } from '@/lib/firestore/orders';
 import { getShopById } from '@/lib/firestore/shops';
+import { Address } from '@/types';
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { user, userData, loading: authLoading } = useAuth();
+  const { user, userData, loading: authLoading, updateUserData } = useAuth();
   const { items, shopId, shopName, deliveryCharge, getSubtotal, getTotal, clearCart } = useCart();
   const { showToast } = useToast();
 
@@ -19,6 +20,9 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [orderId, setOrderId] = useState('');
+  const [showAddressModal, setShowAddressModal] = useState(false);
+  const [newAddress, setNewAddress] = useState({ address: '', landmark: '' });
+  const [savingAddress, setSavingAddress] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -78,6 +82,39 @@ export default function CheckoutPage() {
       showToast('Failed to place order. Please try again.', 'error');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleAddAddress = async () => {
+    if (!newAddress.address.trim()) {
+      showToast('Please enter an address', 'error');
+      return;
+    }
+
+    setSavingAddress(true);
+    try {
+      const addressId = `addr_${Date.now()}`;
+      const address: Address = {
+        id: addressId,
+        address: newAddress.address.trim(),
+        isDefault: !userData?.addresses?.length,
+        ...(newAddress.landmark.trim() && { landmark: newAddress.landmark.trim() }),
+      };
+
+      const currentAddresses = userData?.addresses || [];
+      await updateUserData({
+        addresses: [...currentAddresses, address],
+      });
+
+      setSelectedAddressId(addressId);
+      setShowAddressModal(false);
+      setNewAddress({ address: '', landmark: '' });
+      showToast('Address added successfully', 'success');
+    } catch (error) {
+      console.error('Error adding address:', error);
+      showToast('Failed to add address', 'error');
+    } finally {
+      setSavingAddress(false);
     }
   };
 
@@ -150,36 +187,56 @@ export default function CheckoutPage() {
               <MapPin size={18} className="text-purple-600" />
               Delivery Address
             </h3>
+            <button
+              onClick={() => setShowAddressModal(true)}
+              className="flex items-center gap-1 text-sm text-purple-600 font-medium"
+            >
+              <Plus size={16} />
+              Add
+            </button>
           </div>
 
           <div className="space-y-3">
-            {userData?.addresses?.map((address) => (
-              <label
-                key={address.id}
-                className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all ${
-                  selectedAddressId === address.id
-                    ? 'border-purple-500 bg-purple-50'
-                    : 'border-gray-200 hover:border-gray-300'
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="address"
-                  checked={selectedAddressId === address.id}
-                  onChange={() => setSelectedAddressId(address.id)}
-                  className="mt-1 accent-purple-600"
-                />
-                <div>
-                  <p className="text-gray-800">{address.address}</p>
-                  {address.landmark && (
-                    <p className="text-sm text-gray-500">{address.landmark}</p>
-                  )}
-                  {address.isDefault && (
-                    <span className="text-xs text-purple-600 font-medium">Default</span>
-                  )}
-                </div>
-              </label>
-            ))}
+            {userData?.addresses?.length ? (
+              userData.addresses.map((address) => (
+                <label
+                  key={address.id}
+                  className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all ${
+                    selectedAddressId === address.id
+                      ? 'border-purple-500 bg-purple-50'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="address"
+                    checked={selectedAddressId === address.id}
+                    onChange={() => setSelectedAddressId(address.id)}
+                    className="mt-1 accent-purple-600"
+                  />
+                  <div>
+                    <p className="text-gray-800">{address.address}</p>
+                    {address.landmark && (
+                      <p className="text-sm text-gray-500">{address.landmark}</p>
+                    )}
+                    {address.isDefault && (
+                      <span className="text-xs text-purple-600 font-medium">Default</span>
+                    )}
+                  </div>
+                </label>
+              ))
+            ) : (
+              <div className="text-center py-6">
+                <MapPin size={40} className="mx-auto text-gray-300 mb-2" />
+                <p className="text-gray-500 text-sm">No address saved</p>
+                <button
+                  onClick={() => setShowAddressModal(true)}
+                  className="mt-3 px-4 py-2 bg-purple-600 text-white rounded-xl font-medium text-sm"
+                >
+                  Add Delivery Address
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -249,6 +306,66 @@ export default function CheckoutPage() {
           </button>
         </div>
       </div>
+
+      {/* Add Address Modal */}
+      {showAddressModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50">
+          <div className="bg-white rounded-t-3xl p-6 w-full max-w-lg">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold text-gray-800">Add Address</h3>
+              <button
+                onClick={() => setShowAddressModal(false)}
+                className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"
+              >
+                <X size={18} className="text-gray-600" />
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Full Address *
+                </label>
+                <textarea
+                  value={newAddress.address}
+                  onChange={(e) => setNewAddress((p) => ({ ...p, address: e.target.value }))}
+                  placeholder="Enter your full delivery address"
+                  rows={3}
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Landmark (optional)
+                </label>
+                <input
+                  type="text"
+                  value={newAddress.landmark}
+                  onChange={(e) => setNewAddress((p) => ({ ...p, landmark: e.target.value }))}
+                  placeholder="Near temple, opposite school, etc."
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none"
+                />
+              </div>
+
+              <button
+                onClick={handleAddAddress}
+                disabled={savingAddress || !newAddress.address.trim()}
+                className="w-full py-4 bg-purple-600 text-white font-semibold rounded-xl disabled:opacity-50 flex items-center justify-center gap-2"
+              >
+                {savingAddress ? (
+                  <>
+                    <Loader2 size={20} className="animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  'Save Address'
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
